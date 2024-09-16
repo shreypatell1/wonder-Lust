@@ -1,0 +1,97 @@
+<% layout("/layouts/boilarplate") -%>
+
+<br />
+<div class="row">
+  <div class="col-8 offset-2">
+    <form
+      method="post"
+      action="/listings"
+      class="needs-validation"
+      novalidate
+      enctype="multipart/form-data"
+    >
+      <h3><i>Create a New List</i></h3>
+
+      <div class="mb-3">
+        <label for="title" class="form-label">Title</label>
+        <input
+          class="form-control"
+          name="listing[title]"
+          placeholder="Enter your title"
+          type="text"
+          required
+        />
+        <div class="valid-feedback">Exemplary!</div>
+        <div class="invalid-feedback">Kindly provide a valid title.</div>
+      </div>
+
+      <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <textarea
+          class="form-control"
+          name="listing[description]"
+          placeholder="Enter your description"
+          required
+        ></textarea>
+        <div class="valid-feedback">Superb!</div>
+        <div class="invalid-feedback">Kindly provide a valid description.</div>
+      </div>
+
+      <div class="mb-3">
+        <label for="image" class="form-label">Image</label>
+        <input
+          class="form-control"
+          name="listing[image]"
+          placeholder="Enter image URL/Link"
+          type="file"
+        />
+        <div class="valid-feedback">Splendid!</div>
+        <div class="invalid-feedback">Kindly provide a valid image URL.</div>
+      </div>
+
+      <div class="mb-3">
+        <label for="price" class="form-label">Price</label>
+        <input
+          class="form-control"
+          name="listing[price]"
+          placeholder="Enter your price"
+          required
+        />
+        <div class="valid-feedback">Outstanding!</div>
+        <div class="invalid-feedback">Kindly provide a valid price.</div>
+      </div>
+
+      <div class="row">
+        <div class="mb-3 col-4">
+          <label for="location" class="form-label">Location</label>
+          <input
+            class="form-control"
+            name="listing[location]"
+            placeholder="Enter location"
+            type="text"
+            required
+          />
+          <div class="valid-feedback">Perfect!</div>
+          <div class="invalid-feedback">Kindly provide a valid location.</div>
+        </div>
+
+        <div class="mb-3 col-8">
+          <label for="country" class="form-label">Country</label>
+          <input
+            class="form-control"
+            name="listing[country]"
+            placeholder="Enter country"
+            type="text"
+            required
+          />
+          <div class="valid-feedback">Excellent!</div>
+          <div class="invalid-feedback">Kindly provide a valid country.</div>
+        </div>
+      </div>
+
+      <br />
+      <button class="btn btn-dark add-btn" type="submit">Add</button>
+    </form>
+    <br /><br />
+  </div>
+</div>

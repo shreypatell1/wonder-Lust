@@ -1,0 +1,150 @@
+<% layout("/layouts/boilarplate") -%>
+<script>
+
+  const listing = <%-JSON.stringify( biodata )%>;
+</script>
+
+<div class="row">
+  <div class="col-8 offset-3 mt-3">
+    <h3><%=biodata.title%></h3>
+  </div>
+  <div class="card col-6 offset-3 mt-3 show-card listing-card">
+    <img
+      src="<%=biodata.image.url %>"
+      class="card-img-top show-img"
+      alt="listing_image"
+    />
+    <div class="card-body">
+      <p class="card-text">Own By : <i> <%=biodata.owner.username%> </i></p>
+      <p class="card-text"><b><%=biodata.title%></b></p>
+      <p class="card-text"><%= biodata.description %></p>
+      <p class="card-text">
+        &#8377;<%=biodata.price.toLocaleString("en-IN") %>
+      </p>
+      <p class="card-text"><%= biodata.location %></p>
+      <p class="card-text"><%= biodata.country %></p>
+    </div>
+  </div>
+
+  <%if(currUser && biodata.owner._id.equals(currUser._id)) { %>
+  <div class="btns">
+    <button class="btn btn-dark col-1 offset-3 Edit-btn">
+      <a href="/listings/<%= biodata._id %>/edit">Edit</a>
+    </button>
+
+    <form method="POST" action="/listings/<%=biodata._id %>?_method=DELETE">
+      <button class="btn btn-dark offset-5">Delete</button>
+    </form>
+  </div>
+  <%} %>
+  <!-- reviews -->
+
+  <div class="col-8 offset-3 mb-3">
+    <hr />
+    <%if(currUser) { %>
+
+    <h4>Leave a Review</h4>
+    <form
+      action="/listings/<%= biodata._id %>/reviews"
+      method="POST"
+      novalidate
+      class="needs-validation"
+    >
+      <div class="mb-3 mt-3">
+        <label for="review" class="form-label">Rating</label>
+        <fieldset class="starability-slot">
+          <input
+            type="radio"
+            id="no-rate"
+            class="input-no-rate"
+            name="review[rating]"
+            value="1"
+            checked
+            aria-label="No rating."
+          />
+          <input
+            type="radio"
+            id="first-rate1"
+            name="review[rating]"
+            value="1"
+          />
+          <label for="first-rate1" title="Terrible">1 star</label>
+          <input
+            type="radio"
+            id="first-rate2"
+            name="review[rating]"
+            value="2"
+          />
+          <label for="first-rate2" title="Not good">2 stars</label>
+          <input
+            type="radio"
+            id="first-rate3"
+            name="review[rating]"
+            value="3"
+          />
+          <label for="first-rate3" title="Average">3 stars</label>
+          <input
+            type="radio"
+            id="first-rate4"
+            name="review[rating]"
+            value="4"
+          />
+          <label for="first-rate4" title="Very good">4 stars</label>
+          <input
+            type="radio"
+            id="first-rate5"
+            name="review[rating]"
+            value="5"
+          />
+          <label for="first-rate5" title="Amazing">5 stars</label>
+        </fieldset>
+      </div>
+
+      <div class="mb-3 mt-3">
+        <label for="comment" class="form-label">Comment </label
+        ><textarea
+          name="review[comment]"
+          id="comment"
+          cols="30"
+          rows="5"
+          class="form-control"
+          required
+        ></textarea>
+        <div class="invalid-feedback">
+          Please add some comments for feedback !
+        </div>
+      </div>
+      <button class="btn btn-outline-dark">SUBMIT</button>
+    </form>
+
+    <% } %>
+    <div class="row">
+      <p><b>All Reviews</b></p>
+      <% for(review of biodata.reviews) { %>
+      <div class="card col-5 ms-3 mb-3">
+        <h5 class="card-title"><b>@<%= review.author.username %></b></h5>
+        <p
+          class="starability-result card-text"
+          data-rating="<%=review.rating%>"
+        ></p>
+        <p class="card-text"><%= review.comment%></p>
+        <form
+          class="mb-1"
+          method="POST"
+          action="/listings/<%= biodata.id %>/reviews/<%= review.id %>?_method=DELETE"
+        >
+          <button class="btn btn-sm">
+            <i class="fa-regular fa-trash-can"></i>
+          </button>
+        </form>
+      </div>
+      <% } %>
+    </div>
+  </div>
+  <div class="col-6 offset-3 mb-3">
+    <h3>Where you'll be</h3>
+    <div id="map"></div>
+  </div>
+</div>
+<div id="mapp" data-map-token="<%= process.env.MAP_TOKEN %>"></div>
+<script src="/js/map.js"></script>
